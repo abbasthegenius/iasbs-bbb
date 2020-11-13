@@ -22,7 +22,7 @@ echo "Change default error pages"
 rm /var/www/bigbluebutton-default/*.html  
 cp ./files/html/*.html /usr/share/nginx/html/
 cp ./files/html/index.html /var/www/bigbluebutton-default/
-cat $HOST_NAME > /var/www/bigbluebutton-default/index.html
+cat "$HOST_NAME" > /var/www/bigbluebutton-default/index.html
 sed -i "s~elearn~$HOST_NAME~g" /usr/share/nginx/html/*.html
 sed -i "s~#error_page  404  /404.html;~error_page  404  /404.html;\n  location / {\n    root   /var/www/bigbluebutton-default;\n    index  index.html index.htm;\n    expires 1m;\n  }~g" /etc/nginx/sites-available/bigbluebutton
 sed -i "s~500 502 503 504  /50x.html~403 404 500 502 503 504 /x.html~g" /etc/nginx/sites-available/bigbluebutton
