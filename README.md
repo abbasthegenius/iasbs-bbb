@@ -23,7 +23,7 @@ Edit `apply-config.sh` as appropriate. Comments with each of the customizations 
 
 ## Add users list generator
 ```sh
-nano 
+nano /usr/local/bigbluebutton/core/lib/recordandplayback/generators/events.rb
 ```
 Add this function to the Event module:
 ```sh
