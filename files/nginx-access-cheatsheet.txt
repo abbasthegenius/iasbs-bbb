@@ -1,0 +1,40 @@
+# get total requests by status code
+awk '{print $9}' /var/log/nginx/access.log | sort | uniq -c | sort -rn
+
+# get top requesters by IP
+awk '{print $1}' /var/log/nginx/access.log | sort | uniq -c | sort -rn | head | awk -v OFS='\t' '{"host " $2 | getline ip; print $0, ip}'
+
+# get top requesters by user agent
+awk -F'"' '{print $6}' /var/log/nginx/access.log | sort | uniq -c | sort -rn | head
+
+# get top requests by URL
+awk '{print $7}' /var/log/nginx/access.log | sort | uniq -c | sort -rn | head
+
+# get top IP addresses requesting non-existent content
+awk '$9 ~ /404/ {print $1}' /var/log/nginx/access.log | sort | uniq -c | sort -rn | head | awk -v OFS='\t' '{"host " $2 | getline ip; print $0, ip}'
+
+# get top URL returning 404 Not Found
+awk '$9 ~ /404/ {print $7}' /var/log/nginx/access.log | sort | uniq -c | sort -rn | head
+
+# get top user agents requesting non-existent content
+awk '$9 ~ /404/' /var/log/nginx/access.log | awk -F'"' '{print $6}' | sort | uniq -c | sort -rn | head
+
+# get top IP addresses causing backend errors
+awk '$0 ~ /\[error\]/ && match($0, /(client: )(.*)(, server)/, arr) {print arr[2]}' /var/log/nginx/error.log | sort | uniq -c | sort -rn | awk -v OFS='\t' '{"host " $2 | getline ip; print $0, ip}'
+
+# get all request of last 10 minutes
+awk -v date=$(date +[%d/%b/%Y:%H:%M --date="-10 minutes") '$4 > date' /var/log/nginx/access.log
+
+# get frontend request statistics (total count, max time, min time, mean time, median time, and standard deviation)
+awk 'match($0, /( rt=)(.*)( ua=)/, arr) {print arr[2]}' /var/log/nginx/access.log | datamash count 1 max 1 min 1 mean 1 median 1 pstdev 1
+
+# get backend request statistics (total count, max time, min time, mean time, median time, and standard deviation)
+awk 'match($0, /( ut=")([0-9]+\.[0-9]{3})(.*)(" ul=)/, arr) {print arr[2]}' /var/log/nginx/access.log | datamash count 1 max 1 min 1 mean 1 median 1 pstdev 1
+
+# get slower requests by URL (ignoring requests using POST method)
+awk -F'rt=' '$0 !~ /POST/ && substr($2,0,5) > 5' /var/log/nginx/access.log | awk '{print $7}' | sort | uniq -c | sort -rn | head
+
+# danger
+cat /var/log/nginx/access.log | awk '{print $1}' | sort | uniq -c | sort -nr > DANGER.txt
+
+
