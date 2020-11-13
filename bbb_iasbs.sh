@@ -33,7 +33,12 @@ echo "Change get number of participant in class"
 sed -i 's~userId = joinEvent.at_xpath("userId").text~userId = joinEvent.at_xpath("externalUserId").text~g' /usr/local/bigbluebutton/core/lib/recordandplayback/generators/events.rb
 sed -i 's~ userId.gsub!(/_\d*$/, "")~ #userId.gsub!(/_\d*$/, "")~g' /usr/local/bigbluebutton/core/lib/recordandplayback/generators/events.rb
 
-
+echo "Add Download and scalelite scripts"
+cp ./files/rb/*.rb /usr/local/bigbluebutton/core/scripts/post_publish/
+cat "download_dir: /var/bigbluebutton/published/presentation/downloads" >> /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml
+cp ./files/rb/scalelite.yml /usr/local/bigbluebutton/core/scripts/
+mkdir -p /var/bigbluebutton/published/presentation/downloads
+cp -r ./files/playback /var/bigbluebutton/published/presentation/downloads/
 
 echo "Restarting bbb"
 bbb-conf --restart

@@ -1,0 +1,5 @@
+# Local directory for temporary storage of working files
+work_dir: /var/bigbluebutton/recording/scalelite
+# Directory to place recording files for scalelite to import
+spool_dir: root@192.168.192.24:/mnt/scalelite-recordings/var/bigbluebutton/spool
+

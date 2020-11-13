@@ -49,6 +49,14 @@ def self.set_users(events)
    ss.close
 end
 ```
+And call this function in presentation generation:
+```sh
+nano /usr/local/bigbluebutton/core/scripts/publish/presentation.rb
+```
+```rb
+# add this to below publish_done.close
+BigBlueButton::Events.set_users(@doc)
+```
 
 ## Change recording processing speed
 ```sh
