@@ -173,6 +173,26 @@ Edit `/opt/freeswitch/etc/freeswitch/autoload_configs/opus.conf.xml` and copy-an
 
 [Reference](https://groups.google.com/g/bigbluebutton-setup/c/3Y7VBllwpX0/m/41X9j8bvCAAJ)
 
+## Add junc deletion script
+Fist nano to:
+```
+nano /etc/cron.daily/bbb-recording-cleanup
+```
+Then add these lines:
+
+```sh
+cd /var/bigbluebutton
+mkdir temp
+mv basic_stats configs captions blank deleted diagnostics playback published recording screenshare unpublished events ./temp
+mv temp ..
+rm -rf *
+mv ../temp .
+cd temp
+mv * ..
+cd ..
+rm -r temp
+```
+
 ## Run three parallel Kurento media servers
 
 Available in BigBluebutton 2.2.24 (and later releases of 2.2.x)

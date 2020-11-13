@@ -16,7 +16,7 @@ sed -i 's~moderatorsJoinViaHTML5Client=.*~moderatorsJoinViaHTML5Client=true~g' /
 
 echo "Set Welcome message"
 sed -i 's~defaultWelcomeMessage=.*~defaultWelcomeMessage=Welcome to <b>%%CONFNAME%%</b>!~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
-sed -i 's~defaultWelcomeMessageFooter=.*~defaultWelcomeMessageFooter=Use a <b>headset</b> to avoid causing background noise.<br>Refresh the browser in case of any network issue.<br>Help: <a href="https://iasbs.ac.ir/iasbs-elearn">IASBS E-Learning</a>~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
+sed -i 's~defaultWelcomeMessageFooter=.*~defaultWelcomeMessageFooter=Use a <b>headset</b> to avoid causing background noise.<br>Refresh the browser in case of any network issue.<br>Help: <a target="_blank" href="https://iasbs.ac.ir/iasbs-elearn">IASBS E-Learning</a>~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
 
 echo "Let Moderators unmute users"
 sed -i 's~allowModsToUnmuteUsers=.*~allowModsToUnmuteUsers=true~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
