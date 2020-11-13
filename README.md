@@ -349,34 +349,6 @@ echo username:$username && \
 echo password : $(echo -n $username | openssl dgst -binary -sha1 -hmac $secret | openssl base64)
 ```
 Then click `Add Server` and then `Gather candidates` button. If you have done everything correctly, you should see `Done` as the final result. If you do not get any response or if you see any error messages, please double check if you have diligently followed above steps.
-
-## Change favicon of Greenlight
-```sh
-cd greenlight
-mkdir cpp
-#copy your favicon to greenlight/cpp
-vi docker-compose.yml
-#add the following line to volumes block and restart greenlight
-- ${PWD}/cpp/favicon.ico:/usr/src/app/app/assets/images/favicon.ico
-docker-compose down
-docker-compose up -d
-```
-
-If you have installed Greenlight along with BigBlueButton (bbb-install.sh with -g flag), follow the steps above to change the favicon. Be careful with space and syntax, while adding the line above to volumes block in docker-compose.yml
-
-## Change logo and copyright of Recordings
-```sh
-# copy your logo.png to /var/bigbluebutton/playback/presentation/2.0
-# edit defaultCopyright in /var/bigbluebutton/playback/presentation/2.0/playback.js
-```
-Do you want to see your logo in recording playback? Simply copy your logo to thr playback directory as mentioned above.
-
-Do you want to remove copyright message "Recorded with BigBlueButton"? Edit variable defaultCopyright in playback.js.
- 
-## Experimental
-
-We are still testing optimizations mentioned below. Please ensure these work correctly before deployiong in your production environment.
-
 ### Change processing interval for recordings
 
 Normally, the BigBlueButton server begins processing the data recorded in a session soon after the session finishes. However, you can change the timing for processing by stopping recordings process before beginning of classes and restarting it after ending of classes.
@@ -398,7 +370,6 @@ Rebooting BBB server every night would take care of any zombie process or memory
 So you can set a cron job to reboot the server, say, at mid night. After rebooting BBB starts automatically. When you execute `bbb-conf --check` and `bbb-conf --status` you get correct results. 
 
 However, try to creare and join a meeting, and that doesn't work. You would have to manually start BBB with `bbb-conf --restart` and then everything works as expected.  
-
 
 
 ## More on BigBlueButton
