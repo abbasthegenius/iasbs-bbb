@@ -34,13 +34,13 @@ echo "Set maximum users per class to 200"
 sed -i 's~defaultMaxUsers=.*~defaultMaxUsers=200~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
 
 echo "Enable private chat"
-sed -i 's~lockSettingsDisablePrivateChat=.*~lockSettingsDisablePrivateChat=true~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
+sed -i 's~lockSettingsDisablePrivateChat=.*~lockSettingsDisablePrivateChat=false~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
 
 echo "Enable public chat"
-sed -i 's~lockSettingsDisablePublicChat=.*~lockSettingsDisablePublicChat=true~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
+sed -i 's~lockSettingsDisablePublicChat=.*~lockSettingsDisablePublicChat=false~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
 
 echo "Enable shared note"
-sed -i 's~lockSettingsDisableNote=.*~lockSettingsDisableNote=true~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
+sed -i 's~lockSettingsDisableNote=.*~lockSettingsDisableNote=false~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
 
 echo "Enable mic";
 sed -i 's~lockSettingsDisableMic=.*~lockSettingsDisableMic=false~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
