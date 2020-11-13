@@ -39,6 +39,7 @@ cat "download_dir: /var/bigbluebutton/published/presentation/downloads" >> /usr/
 cp ./files/rb/scalelite.yml /usr/local/bigbluebutton/core/scripts/
 mkdir -p /var/bigbluebutton/published/presentation/downloads
 cp -r ./files/playback /var/bigbluebutton/published/presentation/downloads/
+chown bigbluebutton:bigbluebutton -R /var/bigbluebutton/published/presentation/downloads
 
 echo "Restarting bbb"
 bbb-conf --restart
