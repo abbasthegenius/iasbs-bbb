@@ -15,31 +15,40 @@ We use XMLStarlet to update xml files and sed to update text files.
 ```sh
 sudo apt-get update -y
 sudo apt-get install -y xmlstarlet
-git clone https://github.com/manishkatyan/bbb-optimize.git
+git clone https://github.com/themaqs/bbb-optimize.git
 cd bbb-optimize
-cp apply-config-sample.sh apply-config.sh
-cp apply-config.sh /etc/bigbluebutton/bbb-conf/apply-config.sh
+./bbb_iasbs.sh
 ```
-Edit `apply-config.sh` as appropriate. Comments with each of the customizations will help you understand that the implication of each of them and you will be able to change the default values.  
+Edit `apply-config.sh` as appropriate. Comments with each of the customizations will help you understand that the implication of each of them and you will be able to change the default values.
 
-## Match with your branding
+## Add users list generator
 ```sh
-cp default.pdf /var/www/bigbluebutton-default/
-cp favicon.ico /var/www/bigbluebutton-default/
-bbb-conf --restart
+nano 
 ```
-You can update default BigBlueButton setup to match with your branding in the following ways:
-1. Default PDF that would appear in the presentation area
-2. Logo (favicon format) that would appear as favicon
-3. Application name that would appear in "About" - right side menu
-4. Welcome message that would appear on the public chat area
-5. index.html that shows up when a user logs-out of a class. Create your own version and put it in `/var/www/bigbluebutton-default/`
-
-In addition, you can change the following items in apply-config.sh:
-1. clientTitle
-2. appName
-3. copyright
-4. helpLink
+Add this function to the Event module:
+```sh
+def self.set_users(events)
+   users = Hash.new
+   events.xpath("/recording/event[@eventname='ParticipantJoinEvent' and @module='PARTICIPANT']").each do |joinEvent|
+            userId = joinEvent.at_xpath("externalUserId").text
+            users[userId] = joinEvent.at_xpath("name").text
+   end
+   id = events.xpath('/recording').last()['meeting_id']
+   src = "/var/bigbluebutton/published/presentation/#{id}/"
+   ss= File.open("#{src}users.txt", "w")
+   i = 1
+   users = users.sort_by {|k,v| v}.to_h
+   users.each do |u,k|
+      if i < 10
+         ss.puts " #{i}- #{k}"
+      else
+         ss.puts "#{i}- #{k}"
+      end
+      i = i + 1
+   end
+   ss.close
+end
+```
 
 ## Change recording processing speed
 ```sh
@@ -68,7 +77,7 @@ video_formats:
 
 ## Dynamic Video Profile
 
-aka automatic bitrate/frame rate throttling.   To control camera framerate and bitrate that scales according to the number of cameras in a meeting.
+aka automatic bitrate/frame rate throttling. To control camera framerate and bitrate that scales according to the number of cameras in a meeting.
 To decrease server AND client CPU/bandwidth usage for meetings with many cameras. Leads to significant difference in responsiveness, CPU usage and bandwidth usage (for the better) with this PR.
 
 Edit `/usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml` and set
@@ -186,8 +195,8 @@ Ensure the right file permission `chmod +x rap-process-worker.rb`
 
 After making the changes above restart recording process:
 ```sh
-systemctl daemon-reload 	
-systemctl stop bbb-rap-process-worker.service bbb-record-core.timer 	
+systemctl daemon-reload	
+systemctl stop bbb-rap-process-worker.service bbb-record-core.timer	
 systemctl start bbb-record-core.timer
 ```
 
@@ -257,7 +266,7 @@ Edit `/opt/freeswitch/conf/vars.xml`, and change
 <X-PRE-PROCESS cmd="set" data="external_rtp_ip=stun:stun.freeswitch.org"/>
 <X-PRE-PROCESS cmd="set" data="external_sip_ip=stun:stun.freeswitch.org"/>
 ```
-To 
+To
 ```xml
 <X-PRE-PROCESS cmd="set" data="external_rtp_ip=EXTERNAL_IP_ADDRESS"/>
 <X-PRE-PROCESS cmd="set" data="external_sip_ip=EXTERNAL_IP_ADDRESS"/>
@@ -273,7 +282,7 @@ stun turn.higheredlab.com
 Here is another way to test whether a Stun server, we are using Google’s public Stun server, is accessible from your BBB server. Localport could be any available UDP port on your BBB server.
 
 ```sh
-sudo apt-get install -y stuntman-client $ stunclient --mode full --localport 30000 turn.higheredlab.com 3478
+sudo apt-get install -y stuntman-client$ stunclient --mode full --localport 30000 turn.higheredlab.com 3478
 ```
 Your output should be something like the following:
 
