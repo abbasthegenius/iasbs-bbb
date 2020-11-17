@@ -57,8 +57,8 @@ sed -i 's~allowDuplicateExtUserid=.*~allowDuplicateExtUserid=true~g' /usr/share/
 echo "Disable - End the meeting when there are no moderators after a certain period of time. Prevents students from running amok."
 sed -i 's~endWhenNoModerator=.*~endWhenNoModerator=false~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
 
-echo "Set maximum meeting duration to 240 minutes"
-sed -i 's~defaultMeetingDuration=.*~defaultMeetingDuration=240~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
+echo "Set maximum meeting duration to 360 minutes"
+sed -i 's~defaultMeetingDuration=.*~defaultMeetingDuration=360~g' /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
 
 echo "listen only mode"
 sed -i 's~listenOnlyMode:.*~listenOnlyMode: true~g' /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml
