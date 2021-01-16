@@ -10,7 +10,7 @@ echo "Change default presentation file and logo"
 cp ./files/logo/favicon.ico ./files/logo/main.png ./files/logo/small.png /var/www/bigbluebutton-default/
 cp ./files/logo/favicon.ico ./files/logo/small.png /var/www/bigbluebutton/client/
 cp ./files/default.pdf /var/www/bigbluebutton-default/
-cp small.png /var/bigbluebutton/playback/presentation/2.0/logo.png
+cp ./files/logo/small.png /var/bigbluebutton/playback/presentation/2.0/logo.png
 
 echo "Change Max Upload File from 30M to 80M"
 export MAX_F=80;
